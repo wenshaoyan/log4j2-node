@@ -5,6 +5,7 @@
 'use strict';
 const Verify = require('./utils/verify');
 const Configuration = require('./libs/configuration');
+const Logger = require('./libs/logger');
 const configSchema = {
     appenders: {
         type: 'object',
@@ -15,13 +16,26 @@ const configSchema = {
         required: true,
     }
 };
+// Configuration对象
+let config;
+
+const sendLogEventToAppender = (logEvent) => {
+    if (!config.categories.has(logEvent.categoryName)) {
+
+    }
+
+    const appenders = appendersForCategory(logEvent.categoryName);
+    appenders.forEach((appender) => {
+        appender(logEvent);
+    });
+};
 class Log4j2{
     /**
      * 加载配置 json格式
      */
     static configure(config) {
         Verify.verify(configSchema, config);
-        new Configuration(config);
+        config = new Configuration(config);
 
     }
     static configureXML() {
@@ -30,10 +44,12 @@ class Log4j2{
 
     /**
      *
-     * @param categorie
+     * @param category
      */
-    static getLogger(categorie) {
-        return console;
+    static getLogger(category) {
+        const cat = category || 'default';
+
+        return new Logger(sendLogEventToAppender, cat);
     }
 }
 

@@ -12,3 +12,5 @@ log4j2.configure(config);
 
 const logger = log4j2.getLogger('default');
 logger.info('111');
+const consoleLog = console.log.bind(console);
+consoleLog('=======')

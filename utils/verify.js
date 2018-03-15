@@ -5,11 +5,24 @@
 'use strict';
 
 class Verify{
-    static verify(schema, data) {
-        if (typeof schema === 'object' && typeof data === 'object') {
-            return true;
+    static verify(config, data) {
+        if(typeof data === 'object' && !Array.isArray(data) && typeof config === 'object' && !Array.isArray(config)){
+            let arr = [];
+            for(let key in config){
+                if(key in data && typeof data[key] ===`${config[key].type}` && JSON.stringify(data[key])!== '{}'){
+                    arr.push(true)
+                }else {
+                    arr.push(false)
+                }
+            }
+            if(arr.toString() === 'true,true'){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            throw new Error('verify failure');
         }
-        throw new Error('verify failure');
     }
 
 

@@ -4,7 +4,11 @@
  */
 'use strict';
 const Appender = require('appenders');
-class Kafka extends Appender {
 
+class Kafka extends Appender {
+    constructor(config, layouts) {
+        super(config, layouts);
+    }
 }
+
 module.exports = Kafka;

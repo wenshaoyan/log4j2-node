@@ -4,13 +4,23 @@
  */
 'use strict';
 const localAppenderMap  = new Map();
+localAppenderMap.set('console', '../appenders/console');
+localAppenderMap.set('kafka', '../appenders/kafka');
 
-localAppenderMap.set('console', '../appenders');
-localAppenderMap.set('kafka', '../kafka');
+
+const localLayoutMap  = new Map();
+localLayoutMap.set('basic', '../layouts/basic-layout');
+
 class SysUtil{
     static loadAppender(name) {
         if (localAppenderMap.has(name)) {
             return require(localAppenderMap.get(name));
+        }
+        return false;
+    }
+    static loadLayout(name) {
+        if (localLayoutMap.has(name)) {
+            return require(localLayoutMap.get(name));
         }
         return false;
     }
