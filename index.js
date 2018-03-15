@@ -3,12 +3,25 @@
  *
  */
 'use strict';
-
+const Verify = require('./utils/verify');
+const Configuration = require('./libs/configuration');
+const configSchema = {
+    appenders: {
+        type: 'object',
+        required: true,
+    },
+    categories: {
+        type: 'object',
+        required: true,
+    }
+};
 class Log4j2{
     /**
      * 加载配置 json格式
      */
-    static configure() {
+    static configure(config) {
+        Verify.verify(configSchema, config);
+        new Configuration(config);
 
     }
     static configureXML() {
@@ -18,7 +31,6 @@ class Log4j2{
     /**
      *
      * @param categorie
-     * @return {Console}
      */
     static getLogger(categorie) {
         return console;
@@ -26,4 +38,4 @@ class Log4j2{
 }
 
 
-module.exports = Log4j2
+module.exports = Log4j2;
