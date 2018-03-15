@@ -13,5 +13,11 @@
 - utils: 工具包
    - verify: 参数验证
 - test: 测试包
+   - simple 测试文件
+   
+## 启动
+```test
+node test/simple.js
+```
    
    
