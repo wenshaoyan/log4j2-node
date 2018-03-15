@@ -27,7 +27,8 @@ class Appender{
     }
 
     exec(loggingEvent) {
-        this._callback(this._layout(loggingEvent));
+        this.layout.loggingEvent = loggingEvent;
+        this._callback(this.layout.exec(loggingEvent));
     }
 
 

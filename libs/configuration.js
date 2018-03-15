@@ -5,12 +5,14 @@
 'use strict';
 const SysUtil = require('../utils/sys-util');
 const Log4j2Error = require('../utils/log4j2-error-util');
+const Level = require('../libs/levels');
 class Configuration {
-
     constructor(config) {
         this.config = config;
         this.configuredAppenders = new Map();
         this.configuredCategories = new Map();
+        this.configuredLevels = null;
+        this.levels = config.levels;
         this.appenders = config.appenders;
         this.categories = config.categories;
     }
@@ -18,6 +20,7 @@ class Configuration {
     get appenders() {
         return this.configuredAppenders;
     }
+
     set appenders(value) {
         const keys = Object.keys(value);
         keys.forEach(k => {
@@ -31,7 +34,7 @@ class Configuration {
     }
 
     get categories() {
-        return this._categories;
+        return this.configuredCategories;
     }
 
     set categories(value) {
@@ -45,13 +48,24 @@ class Configuration {
 
             this.configuredCategories.set(
                 k,
-                { appenders: appenders, level: this.configuredLevels.getLevel(category.level) }
+                {appenders: appenders, level: this.configuredLevels.getLevel(category.level)}
             );
         });
 
         this._categories = value;
     }
 
+    get levels() {
+        return this.configuredLevels;
+    }
+
+    set levels(value) {
+        if (value) {
+            Level.addLevels(value);
+        }
+        this.configuredLevels = Level;
+
+    }
 
 
 }

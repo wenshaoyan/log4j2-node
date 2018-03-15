@@ -20,23 +20,22 @@ const configSchema = {
 let config;
 
 const sendLogEventToAppender = (logEvent) => {
-    if (!config.categories.has(logEvent.categoryName)) {
-
+    let categoryName = logEvent.categoryName;
+    if (!config.categories.has(categoryName)) {
+        categoryName = 'default';
     }
-
-    const appenders = appendersForCategory(logEvent.categoryName);
-    appenders.forEach((appender) => {
-        appender(logEvent);
+    const catObject = config.categories.get(categoryName);
+    catObject.appenders.forEach((appender) => {
+        catObject.appenders[0].exec(logEvent);
     });
 };
 class Log4j2{
     /**
      * 加载配置 json格式
      */
-    static configure(config) {
-        Verify.verify(configSchema, config);
-        config = new Configuration(config);
-
+    static configure(_config) {
+        Verify.verify(configSchema, _config);
+        config = new Configuration(_config);
     }
     static configureXML() {
 
@@ -48,7 +47,6 @@ class Log4j2{
      */
     static getLogger(category) {
         const cat = category || 'default';
-
         return new Logger(sendLogEventToAppender, cat);
     }
 }

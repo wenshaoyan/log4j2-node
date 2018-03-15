@@ -3,8 +3,7 @@
  * 日志格式超类
  */
 'use strict';
-/* eslint prefer-rest-params:0 */
-// todo: once node v4 support dropped, use rest parameter instead
+
 function formatLogData(logData) {
     let data = logData;
     if (!Array.isArray(data)) {
@@ -13,8 +12,9 @@ function formatLogData(logData) {
         for (let i = 0; i < numArgs; i++) { // eslint-disable-line no-plusplus
             data[i] = arguments[i];
         }
+        console.log(data);
     }
-    return util.format.apply(util, wrapErrorsWithInspect(data));
+    return '11';
 }
 
 const styles = {
@@ -55,6 +55,7 @@ class Layout{
     constructor(loggingEvent, colour) {
         this._loggingEvent = loggingEvent;
         this._colour = colour;
+        this._formatStr = '[%s] [%s] %s - ';
     }
 
     get loggingEvent() {
@@ -73,13 +74,21 @@ class Layout{
         this._colour = value;
     }
 
+
+    get formatStr() {
+        return this._formatStr;
+    }
+
+    set formatStr(value) {
+        this._formatStr = value;
+    }
+
     exec() {
         return colorize(
-            formatLogData(
-                '[%s] [%s] %s - '
-                , this._loggingEvent.startTime
-                , this._loggingEvent.level
-                , this._loggingEvent.categoryName
+            formatLogData(this.formatStr
+                , this.loggingEvent.startTime
+                , this.loggingEvent.level
+                , this.loggingEvent.categoryName
             )
             , this._colour
         );
