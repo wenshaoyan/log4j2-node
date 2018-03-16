@@ -11,7 +11,7 @@ const consoleLog = console.log.bind(console);
 class Console extends Appender {
     constructor(config) {
         super();
-        let Layout = loadLayout('basic');
+        let Layout = loadLayout('coloured');
         if (config.layout) {
             Layout = loadLayout(config.layout.type);
             if (!Layout) {

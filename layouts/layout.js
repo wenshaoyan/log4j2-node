@@ -4,17 +4,31 @@
  */
 'use strict';
 
-function formatLogData(logData) {
-    let data = logData;
-    if (!Array.isArray(data)) {
-        const numArgs = arguments.length;
-        data = new Array(numArgs);
-        for (let i = 0; i < numArgs; i++) { // eslint-disable-line no-plusplus
-            data[i] = arguments[i];
+function formatLogDataColor(_format, _date, _level, _categoryName, _data) {
+    return `[${_date}] [${_level}] ${_categoryName} - `;
+}
+function formatLogData(_data) {
+    let input = '';
+    _data.forEach(v => {
+        if (v instanceof Error) {
+            const values = [];
+            Object.keys(v).map(k => {
+                if (k !== 'name') {
+                    if (typeof v[k] === 'object') {
+                        values.push(`${k}:${JSON.stringify(v[k])}`);
+                    } else {
+                        values.push(`${k}:${v[k]}`);
+                    }
+                }
+            });
+            v = `{ ${v.stack} \n    ${values.toString()} } `;
+        } else if (typeof v === 'object') {
+            v = JSON.stringify(v);
         }
-        console.log(data);
-    }
-    return '11';
+        input += ' ' + v;
+    });
+    return input;
+
 }
 
 const styles = {
@@ -43,6 +57,7 @@ function colorizeStart(style) {
 function colorizeEnd(style) {
     return style ? `\x1B[${styles[style][1]}m` : '';
 }
+
 /**
  * Taken from masylum's fork (https://github.com/masylum/log4js-node)
  */
@@ -50,8 +65,26 @@ function colorize(str, style) {
     return colorizeStart(style) + str + colorizeEnd(style);
 }
 
+function formatDate(d, fmt) {
+    if (!fmt) {
+        fmt = 'yyyy-MM-dd hh:mm:ss.S';
+    }
+    const o = {
+        "M+": d.getMonth() + 1, //月份
+        "d+": d.getDate(), //日
+        "h+": d.getHours(), //小时
+        "m+": d.getMinutes(), //分
+        "s+": d.getSeconds(), //秒
+        "q+": Math.floor((d.getMonth() + 3) / 3), //季度
+        "S": d.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (d.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (const k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
 
-class Layout{
+class Layout {
     constructor(loggingEvent, colour) {
         this._loggingEvent = loggingEvent;
         this._colour = colour;
@@ -83,15 +116,15 @@ class Layout{
         this._formatStr = value;
     }
 
+    formatLogData(_date, _level, _categoryName, _data) {
+        return colorize(formatLogDataColor(this.formatStr, formatDate(_date), _level, _categoryName), this.colour) + formatLogData(_data);
+    }
+
     exec() {
-        return colorize(
-            formatLogData(this.formatStr
-                , this.loggingEvent.startTime
-                , this.loggingEvent.level
-                , this.loggingEvent.categoryName
-            )
-            , this._colour
-        );
+        const l = this.loggingEvent;
+        return this.formatLogData(l.startTime, l.level, l.categoryName, l.data);
+
     }
 }
+
 module.exports = Layout;

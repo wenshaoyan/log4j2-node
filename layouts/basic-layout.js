@@ -9,8 +9,6 @@ class BasicLayout extends Layout {
         super();
         this.name = 'BasicLayout';
     }
-
-
 }
 
 module.exports = BasicLayout;

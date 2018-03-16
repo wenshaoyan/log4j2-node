@@ -4,9 +4,10 @@
  */
 'use strict';
 const LoggingEvent = require('./logging-event');
+const levels = require('./levels');
 const getArgs = function(args) {
     return Array.from(args);
-}
+};
 
 class Logger{
     constructor(dispatch, category){
@@ -52,7 +53,7 @@ class Logger{
         this.context = {};
     }
     _log(level, data) {
-        const loggingEvent = new LoggingEvent(this.category, level, data, this.context);
+        const loggingEvent = new LoggingEvent(this.category,levels.getLevel(level), data, this.context);
         this.dispatch(loggingEvent);
     }
 

@@ -10,6 +10,7 @@ localAppenderMap.set('kafka', '../appenders/kafka');
 
 const localLayoutMap  = new Map();
 localLayoutMap.set('basic', '../layouts/basic-layout');
+localLayoutMap.set('coloured', '../layouts/coloured-layout');
 
 class SysUtil{
     static loadAppender(name) {
