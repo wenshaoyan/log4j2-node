@@ -7,7 +7,7 @@
 function formatLogDataColor(_format, _date, _level, _categoryName, _data) {
     return `[${_date}] [${_level}] ${_categoryName} - `;
 }
-function formatLogData(_data) {
+function formatData(_data) {
     let input = '';
     _data.forEach(v => {
         if (v instanceof Error) {
@@ -117,7 +117,19 @@ class Layout {
     }
 
     formatLogData(_date, _level, _categoryName, _data) {
-        return colorize(formatLogDataColor(this.formatStr, formatDate(_date), _level, _categoryName), this.colour) + formatLogData(_data);
+        return colorize(formatLogDataColor(this.formatStr, formatDate(_date), _level, _categoryName), this.colour) + formatData(_data);
+    }
+
+    /**
+     * 格式化时间
+     * @param date
+     * @return
+     */
+    static formatDate(date) {
+        return formatDate(date);
+    }
+    static formatData(data) {
+        return formatData(data);
     }
 
     exec() {

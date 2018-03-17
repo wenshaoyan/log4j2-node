@@ -15,9 +15,10 @@
 - test: 测试包
    - simple 测试文件
    
-## 启动
-```test
-node test/simple.js
+## 安装
+```text
+npm install log4j2-node
 ```
+
    
    

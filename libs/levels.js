@@ -15,6 +15,8 @@ class Level{
     toString() {
         return this.levelStr;
     }
+
+
 }
 const defaultLevels = {
     ALL: new Level(Number.MIN_VALUE, 'ALL', 'grey'),
@@ -48,6 +50,17 @@ class Levels {
     }
     static levels() {
         return Object.keys(defaultLevels).sort((a, b) => b.level - a.level);
+    }
+    /**
+     * 判断是否需要打印
+     * @param configLevel       配置的level对象
+     * @param practicalLevel    实际的level对象
+     */
+    static isConsole(configLevel, practicalLevel) {
+        if('level' in configLevel && 'level' in practicalLevel) {
+            return configLevel.level <= practicalLevel.level;
+        }
+        return true;
     }
 }
 module.exports = Levels;

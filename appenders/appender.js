@@ -26,9 +26,14 @@ class Appender{
         this._callback = value;
     }
 
+
+    /**
+     * 执行打印
+     * @param loggingEvent
+     */
     exec(loggingEvent) {
         this.layout.loggingEvent = loggingEvent;
-        this._callback(this.layout.exec(loggingEvent));
+        this.callback(this.layout.exec(loggingEvent));
     }
 
 
