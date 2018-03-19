@@ -11,7 +11,8 @@
    - logger: 记录器
    - logging-event: 输出的对象
 - utils: 工具包
-   - verify: 参数验证
+   - log4j2-error-util: 错误类
+   - sys-util: 系统工具类
 - test: 测试包
    - simple 测试文件
    
