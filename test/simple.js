@@ -1,7 +1,7 @@
 const log4j2 = require('../index');
 const config = {
     "appenders": {
-        "console":{"type":"console",layout: {type: 'json'}},
+        "console":{"type":"console",layout: {type: 'coloured'}},
         "kafka": {"type": "kafka", socket_config: {"kafkaHost": process.env.KAFKA_HOST, "topic": "global-log"}}
     },
     "categories": {
