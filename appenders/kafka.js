@@ -17,12 +17,13 @@ class Kafka extends Appender {
             }
         }
         this.layout = new Layout();
+        const socket_config = config.socket_config;
         const kafka = require('kafka-node'),
             Producer = kafka.Producer,
-            client = new kafka.KafkaClient({kafkaHost:config.kafkaHost}),
+            client = new kafka.KafkaClient({kafkaHost:socket_config.kafkaHost}),
             producer = new Producer(client);
         this.callback = function (d) {
-            producer.send([{ topic: config.topic, messages: JSON.stringify(d), key:'test' }], (err,data) => {
+            producer.send([{ topic: socket_config.topic, messages: d, key:'test' }], (err,data) => {
 
             })
         };
