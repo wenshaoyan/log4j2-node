@@ -139,7 +139,8 @@ const logger = log4j2.getLogger('default');
 logger.info('1');
 ```
 
-
+### 项目地址
+https://github.com/wenshaoyan/log4j2-node
 
 
    
