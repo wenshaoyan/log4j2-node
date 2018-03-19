@@ -3,55 +3,33 @@
  *
  */
 'use strict';
-const Verify = require('./utils/verify');
-const Configuration = require('./libs/configuration');
-const Logger = require('./libs/logger');
-const Levels = require('./libs/levels');
-const configSchema = {
-    appenders: {
-        type: 'object',
-        required: true,
-    },
-    categories: {
-        type: 'object',
-        required: true,
+const log4j2 = require('./log4j2');
+
+Object.defineProperty(exports, 'configure', {
+    enumerable: true,
+    get: function get() {
+        return log4j2.configure;
     }
-};
-// Configuration对象
-let config;
+});
 
-const sendLogEventToAppender = (logEvent) => {
-    let categoryName = logEvent.categoryName;
-    if (!config.categories.has(categoryName)) {
-        categoryName = 'default';
+Object.defineProperty(exports, 'configureXML', {
+    enumerable: true,
+    get: function get() {
+        return log4j2.configureXML;
     }
-    const catObject = config.categories.get(categoryName);
-    catObject.appenders.forEach((appender) => {
-        if (Levels.isConsole(catObject.level, logEvent.level)) appender.exec(logEvent);
-    });
-};
-class Log4j2 {
-    /**
-     * 加载配置 json格式
-     */
-    static configure(_config) {
-        Verify.verify(configSchema, _config);
-        config = new Configuration(_config);
+});
+Object.defineProperty(exports, 'getLogger', {
+    enumerable: true,
+    get: function get() {
+        return log4j2.getLogger;
     }
+});
 
-    static configureXML() {
+const Log4j2Error = require('./utils/log4j2-error-util');
 
+Object.defineProperty(exports, 'Log4j2Error', {
+    enumerable: true,
+    get: function get() {
+        return Log4j2Error;
     }
-
-    /**
-     *
-     * @param category
-     */
-    static getLogger(category) {
-        const cat = category || 'default';
-        return new Logger(sendLogEventToAppender, cat);
-    }
-}
-
-
-module.exports = Log4j2;
+});
