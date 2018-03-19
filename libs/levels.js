@@ -10,6 +10,7 @@ class Level{
         this.level = level;
         this.levelStr = levelStr;
         this.colour = colour;
+        this.name = 'Level';
     }
 
     toString() {
