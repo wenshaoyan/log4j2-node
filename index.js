@@ -6,6 +6,7 @@
 const Verify = require('./utils/verify');
 const Configuration = require('./libs/configuration');
 const Logger = require('./libs/logger');
+const Levels = require('./libs/levels');
 const configSchema = {
     appenders: {
         type: 'object',
@@ -26,10 +27,10 @@ const sendLogEventToAppender = (logEvent) => {
     }
     const catObject = config.categories.get(categoryName);
     catObject.appenders.forEach((appender) => {
-        catObject.appenders[0].exec(logEvent);
+        if (Levels.isConsole(catObject.level, logEvent.level)) appender.exec(logEvent);
     });
 };
-class Log4j2{
+class Log4j2 {
     /**
      * 加载配置 json格式
      */
@@ -37,6 +38,7 @@ class Log4j2{
         Verify.verify(configSchema, _config);
         config = new Configuration(_config);
     }
+
     static configureXML() {
 
     }

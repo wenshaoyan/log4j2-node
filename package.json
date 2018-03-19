@@ -2,7 +2,7 @@
   "name": "log4j2-node",
   "version": "1.0.0",
   "dependencies": {
-
+    "kafka-node": "^2.4.1"
   },
   "repository": {
     "type": "git",
@@ -15,6 +15,9 @@
   "author": "wenshao314106@163.com",
   "engines": {
     "node": ">=7.7.0"
+  },
+  "devDependencies": {
+    "kafka": "^2.4.1"
   },
   "license": "MIT",
   "main": "index.js"
