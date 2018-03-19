@@ -6,15 +6,30 @@
 const SysUtil = require('../utils/sys-util');
 const Log4j2Error = require('../utils/log4j2-error-util');
 const Level = require('../libs/levels');
+
+const def = {
+    "appenders": {
+        "console":{"type":"console"}
+    },
+    "categories": {
+        "default": {"appenders": ["console"], "level": "trace"}
+    }
+};
 class Configuration {
     constructor(config) {
         this.config = config;
+        if (this.config === undefined) {
+            console.warn('warning: config is undefined, pls log4j2.configure({...})');
+            this.config = def;
+        }
+        Log4j2Error.isJson(this.config, '');
+
         this.configuredAppenders = new Map();
         this.configuredCategories = new Map();
         this.configuredLevels = null;
-        this.levels = config.levels;
-        this.appenders = config.appenders;
-        this.categories = config.categories;
+        this.levels = this.config.levels;
+        this.appenders = this.config.appenders;
+        this.categories = this.config.categories;
     }
 
     get appenders() {
@@ -22,6 +37,9 @@ class Configuration {
     }
 
     set appenders(value) {
+        if (typeof value !== 'object') {
+            throw new Log4j2Error(`appenders must is object`);
+        }
         const keys = Object.keys(value);
         keys.forEach(k => {
             const Appender = SysUtil.loadAppender(value[k].type);
