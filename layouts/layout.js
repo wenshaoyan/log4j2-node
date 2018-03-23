@@ -5,7 +5,7 @@
 'use strict';
 
 function formatLogDataColor(_format, _date, _level, _categoryName, _data) {
-    return `[${_date}] [${_level}] ${_categoryName} -`;
+    return `[${_date}] [${_level}] [${_categoryName}] -`;
 }
 function formatData(_data) {
     let input = '';
@@ -69,6 +69,12 @@ function formatDate(d, fmt) {
     if (!fmt) {
         fmt = 'yyyy-MM-dd hh:mm:ss.S';
     }
+    let s = d.getMilliseconds();
+    if (s >= 10 && s < 100) {
+        s = '0' + s.toString();
+    } else if (s < 10) {
+        s = '00' + s.toString();
+    }
     const o = {
         "M+": d.getMonth() + 1, //月份
         "d+": d.getDate(), //日
@@ -76,7 +82,7 @@ function formatDate(d, fmt) {
         "m+": d.getMinutes(), //分
         "s+": d.getSeconds(), //秒
         "q+": Math.floor((d.getMonth() + 3) / 3), //季度
-        "S": d.getMilliseconds() //毫秒
+        "S": s //毫秒
     };
     if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (d.getFullYear() + "").substr(4 - RegExp.$1.length));
     for (const k in o)
@@ -128,6 +134,7 @@ class Layout {
     static formatDate(date) {
         return formatDate(date);
     }
+
     static formatData(data) {
         return formatData(data);
     }
