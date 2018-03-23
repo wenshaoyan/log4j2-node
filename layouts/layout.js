@@ -5,7 +5,7 @@
 'use strict';
 
 function formatLogDataColor(_format, _date, _level, _categoryName, _data) {
-    return `[${_date}] [${_level}] ${_categoryName} - `;
+    return `[${_date}] [${_level}] ${_categoryName} -`;
 }
 function formatData(_data) {
     let input = '';
