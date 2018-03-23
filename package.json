@@ -1,6 +1,6 @@
 {
   "name": "log4j2-node",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "dependencies": {
     "kafka-node": "^2.4.1"
   },
