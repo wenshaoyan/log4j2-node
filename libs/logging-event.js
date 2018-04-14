@@ -12,6 +12,11 @@ class LoggingEvent {
         this._startTime = new Date();
         this._pid = process.pid;
         this._context = context;
+        this._className = undefined;
+        this._methodName = undefined;
+        this._mode = undefined;
+        this._line = undefined;
+        this._row = undefined;
     }
 
 
@@ -61,6 +66,46 @@ class LoggingEvent {
 
     set context(value) {
         this._context = value;
+    }
+
+    get className() {
+        return this._className;
+    }
+
+    set className(value) {
+        this._className = value;
+    }
+
+    get methodName() {
+        return this._methodName;
+    }
+
+    set methodName(value) {
+        this._methodName = value;
+    }
+
+    get mode() {
+        return this._mode;
+    }
+
+    set mode(value) {
+        this._mode = value;
+    }
+
+    get line() {
+        return this._line;
+    }
+
+    set line(value) {
+        this._line = value;
+    }
+
+    get row() {
+        return this._row;
+    }
+
+    set row(value) {
+        this._row = value;
     }
 }
 
