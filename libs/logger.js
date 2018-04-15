@@ -5,6 +5,7 @@
 'use strict';
 const LoggingEvent = require('./logging-event');
 const levels = require('./levels');
+const {parseStack} = require('../utils/sys-util');
 const getArgs = function(args) {
     return Array.from(args);
 };
@@ -15,7 +16,6 @@ class Logger{
         this._category = category;
         this._dispatch = dispatch;
     }
-
 
     get dispatch() {
         return this._dispatch;
@@ -54,6 +54,18 @@ class Logger{
     }
     _log(level, data) {
         const loggingEvent = new LoggingEvent(this.category,levels.getLevel(level), data, this.context);
+        const stackList = parseStack(new Error().stack);
+        if (stackList[2]){
+            const stack = stackList[2];
+            loggingEvent.className = stack.className;
+            loggingEvent.methodName = stack.methodName;
+            loggingEvent.mode = stack.mode;
+            loggingEvent.line = stack.line;
+            loggingEvent.row = stack.row;
+            loggingEvent.file = stack.file;
+            loggingEvent.source = stack.source;
+        }
+
         this.dispatch(loggingEvent);
     }
 

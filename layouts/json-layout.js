@@ -12,7 +12,20 @@ class JsonLayout extends Layout {
     }
     exec() {
         const l = this.loggingEvent;
-        return JSON.stringify({t: Layout.formatDate(l.startTime), p: l.level.levelStr, g: l.categoryName , a: l.content, m: Layout.formatData(l.data)});
+        return JSON.stringify({
+            time: Layout.formatDate(l.startTime),
+            level: l.level.levelStr,
+            category: l.categoryName ,
+            context: l.context,
+            message: Layout.formatData(l.data),
+            className: l.className,
+            methodName: l.methodName,
+            mode: l.mode,
+            line: l.line,
+            row: l.row,
+            file: l.file,
+            source: l.file
+        });
     }
 }
 

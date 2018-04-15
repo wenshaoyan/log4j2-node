@@ -4,8 +4,12 @@
  */
 'use strict';
 
-function formatLogDataColor(_format, _date, _level, _categoryName, _data) {
+function formatLogDataColor(_format, _date, _level, _categoryName) {
     return `[${_date}] [${_level}] [${_categoryName}] -`;
+}
+function formatExtendLogDataColor(_format, info) {
+    return `[${info.date}] [${info.level}] [${info.categoryName}] [${info.className}] [${info.methodName}] ${info.line} ${info.row} -`;
+
 }
 function formatData(_data) {
     let input = '';
@@ -125,7 +129,10 @@ class Layout {
     formatLogData(_date, _level, _categoryName, _data) {
         return colorize(formatLogDataColor(this.formatStr, formatDate(_date), _level, _categoryName), this.colour) + formatData(_data);
     }
-
+    formatExtendLogData(info) {
+        info.date = formatDate(info.startTime);
+        return colorize(formatExtendLogDataColor(this.formatStr, info), this.colour) + formatData(info.data);
+    }
     /**
      * 格式化时间
      * @param date
