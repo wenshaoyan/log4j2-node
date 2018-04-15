@@ -18,7 +18,13 @@ class JsonLayout extends Layout {
             category: l.categoryName ,
             context: l.context,
             message: Layout.formatData(l.data),
-            pid: l.pid
+            className: l.className,
+            methodName: l.methodName,
+            mode: l.mode,
+            line: l.line,
+            row: l.row,
+            file: l.file,
+            source: l.file
         });
     }
 }

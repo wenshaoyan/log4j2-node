@@ -17,6 +17,8 @@ class LoggingEvent {
         this._mode = undefined;
         this._line = undefined;
         this._row = undefined;
+        this._file = undefined;
+        this._source = undefined;
     }
 
 
@@ -106,6 +108,22 @@ class LoggingEvent {
 
     set row(value) {
         this._row = value;
+    }
+
+    get file() {
+        return this._file;
+    }
+
+    set file(value) {
+        this._file = value;
+    }
+
+    get source() {
+        return this._source;
+    }
+
+    set source(value) {
+        this._source = value;
     }
 }
 

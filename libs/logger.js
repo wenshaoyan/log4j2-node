@@ -62,6 +62,8 @@ class Logger{
             loggingEvent.mode = stack.mode;
             loggingEvent.line = stack.line;
             loggingEvent.row = stack.row;
+            loggingEvent.file = stack.file;
+            loggingEvent.source = stack.source;
         }
 
         this.dispatch(loggingEvent);
