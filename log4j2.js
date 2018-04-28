@@ -41,6 +41,15 @@ class Log4j2 {
         return new Logger(sendLogEventToAppender, cat);
     }
 }
-
+const def = {
+    "appenders": {
+        "console":{"type":"console"}
+    },
+    "categories": {
+        "default": {"appenders": ["console"], "level": "trace"}
+    }
+};
+// 预先加载一遍配置
+Log4j2.configure(def);
 
 module.exports = Log4j2;
